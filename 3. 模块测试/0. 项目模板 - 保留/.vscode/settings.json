@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "*.s": "arm",
+        "stm32f10x.h": "c",
+        "stdio.h": "c",
+        "sys.h": "c",
+        "delay.h": "c",
+        "motor.h": "c",
+        "ps2.h": "c",
+        "stdint.h": "c",
+        "servo.h": "c",
+        "usart.h": "c"
+    }
+}
