@@ -50,3 +50,21 @@
 
 所以，如果你想在第一次推送时就建立本地与远程分支的关联，**推荐使用"git push -u origin master"命令**。
 
+---
+
+在新建仓库时，如果在 Gitee 平台仓库上已经存在 readme 或其他文件，在提交时可能会存在冲突，这时用户需要选择的是保留线上的文件或者舍弃线上的文件，如果您舍弃线上的文件，则在推送时选择强制推送，强制推送需要执行下面的命令(默认不推荐该行为)：
+
+```
+$ git push origin master -f
+```
+
+如果您选择保留线上的 readme 文件,则需要先执行：
+
+```
+$ git pull origin master
+```
+
+以上参阅 **Gitee 帮助中心**
+
+[提交第一行代码 - Gitee.com](https://gitee.com/help/articles/4122)
+
