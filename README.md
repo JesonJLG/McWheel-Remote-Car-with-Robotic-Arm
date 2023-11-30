@@ -68,3 +68,6 @@ $ git pull origin master
 
 [提交第一行代码 - Gitee.com](https://gitee.com/help/articles/4122)
 
+---
+
+[如何修改Git已提交的日志 - 余以为 (cnblogs.com)](https://www.cnblogs.com/China-Dream/p/15331446.html)
