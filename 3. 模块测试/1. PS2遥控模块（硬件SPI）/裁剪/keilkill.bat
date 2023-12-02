@@ -24,4 +24,9 @@ del *.iex /s
 del *.htm /s
 del *.sct /s
 del *.map /s
+
+::¸öÈËÌí¼Ó
+del *.orig /s
+del *.dbgconf /s
+del *.Administrator /s
 exit
