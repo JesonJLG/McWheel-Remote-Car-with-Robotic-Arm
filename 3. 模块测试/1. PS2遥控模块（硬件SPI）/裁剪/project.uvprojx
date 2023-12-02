@@ -694,6 +694,11 @@
               <FileType>1</FileType>
               <FilePath>.\Hardware\ps2.c</FilePath>
             </File>
+            <File>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\led.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

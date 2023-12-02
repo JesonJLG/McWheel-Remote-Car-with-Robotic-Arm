@@ -1,9 +1,9 @@
 #ifndef _MOTOR_H_
 #define _MOTOR_H_
-
+ 
 #include "stm32f10x.h"
 /*------------添加引脚宏定义-------------*/
-//#define
+//#define	
 
 
 void Motor_Init(void);
