@@ -699,6 +699,11 @@
               <FileType>1</FileType>
               <FilePath>.\Hardware\led.c</FilePath>
             </File>
+            <File>
+              <FileName>MySPI.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\MySPI.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

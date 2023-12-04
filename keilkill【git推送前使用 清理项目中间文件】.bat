@@ -24,4 +24,10 @@ del *.iex /s
 del *.htm /s
 del *.sct /s
 del *.map /s
+
+::个人添加  .orig 为格式化代码产生的备份文件
+del *.orig /s
+del *.dbgconf /s
+del *.Administrator /s
+del *.Admin /s
 exit
