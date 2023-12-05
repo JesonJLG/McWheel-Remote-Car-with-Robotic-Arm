@@ -41,6 +41,7 @@ void PS2_Init(void)
     PS2_ShortPoll();
     PS2_ShortPoll();
 	PS2_ShortPoll();
+	
     PS2_EnterConfing();		//进入配置模式
     PS2_TurnOnAnalogMode();	//“红绿灯”配置模式，并选择是否保存
     PS2_VibrationMode();	//开启震动模式

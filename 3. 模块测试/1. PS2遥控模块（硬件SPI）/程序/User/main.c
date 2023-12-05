@@ -16,9 +16,10 @@ int main(void)
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
     delay_init();
     Uart1_init(115200); /*协议处理接口 */
-    PS2_Init();
     LED_Init();
-    DBG_PRINTF("NVIC分组完毕\r\nPS2初始化完毕\r\n电机初始化完毕\r\n舵机初始化完毕\r\n");
+    DBG_PRINTF("1111111111111111\r\n");
+	PS2_Init();
+	DBG_PRINTF("2222222222222222\r\n");
 
     while (1)
     {
