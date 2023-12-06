@@ -11,6 +11,7 @@ int PS2_LX,PS2_LY,PS2_RX,PS2_RY,PS2_KEY;
 
 uint8_t PS2_KeyNum;
 uint8_t PS2_Mode, Last_PS2_Mode;
+uint8_t temp;
 int main(void)
 {
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
@@ -20,7 +21,10 @@ int main(void)
     DBG_PRINTF("1111111111111111\r\n");
 	PS2_Init();
 	DBG_PRINTF("2222222222222222\r\n");
-
+	
+//	PS2_ReadData();
+//	for(int i=0; i<10; i++)
+//	DBG_PRINTF("Data[%i]£º%x\r\n", i, Data[i]);
     while (1)
     {
 #ifdef TEST0

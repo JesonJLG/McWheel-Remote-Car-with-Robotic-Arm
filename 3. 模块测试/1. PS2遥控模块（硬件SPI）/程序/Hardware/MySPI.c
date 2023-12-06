@@ -3,12 +3,11 @@
 #include "MySPI.h"
 #include "delay.h"
 
-#define	DELAY_TIME	{delay_us(16);}		//SCK一定要有延时，否则PS2跟不上
+#define	DELAY_TIME	{delay_us(16);}		//SPI数据交换中 一定要有延时，否则PS2跟不上
 
 void MySPI_W_SS(uint8_t BitValue)
 {
     GPIO_WriteBit(PS2_PORT, PS2_CS_SEL, (BitAction)BitValue);
-	//DELAY_TIME;
 }
 
 void MySPI_Start(void)
@@ -47,7 +46,7 @@ void MySPI_Init(void)
 	SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
 	SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
 	SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_LSB;	//LSB先行
-	SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_128;	//36MHz/128 = 281KHz
+	SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_256;	//36MHz/256 = 140KHz
 	SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;			//CPOL=1
 	SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;		//CPOH=0	模式2
 	SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;			//CS片选 软件实现
@@ -77,13 +76,16 @@ uint8_t MySPI_SwapByte(uint8_t ByteSend)
 
 //    return ByteReceive;
 	
-	while(SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_TXE) != SET){	//等待TDR为空
-		//DELAY_TIME
-	}
-	SPI_I2S_SendData(SPI2, ByteSend);	//写TDR
 	
-	while(SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_RXNE) != SET){	//等待RDR非空
-		//DELAY_TIME
-	}
+	while(SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_TXE) != SET);	//等待TDR为空	为空不一定发送完成
+
+	//while(SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_BSY) == SET); 	//是否发送完成？
+	DELAY_TIME;
+	SPI_I2S_SendData(SPI2, ByteSend);	//写TDR
+
+	while(SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_RXNE) != SET);	//等待RDR非空	非空不一定接收完成
+	
+	//while(SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_BSY) == SET); 	//是否接受完成？
+	DELAY_TIME;
 	return SPI_I2S_ReceiveData(SPI2);	//读RDR
 }

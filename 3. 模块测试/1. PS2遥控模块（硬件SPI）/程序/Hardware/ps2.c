@@ -8,7 +8,7 @@ unsigned int Handkey;	// 按键值读取，零时存储。
 //uint8_t Key_num;
 uint8_t ps2_mode;
 uint8_t Comd[9]= {0x01,0x42,0x00,0x00,0x00,0x00,0x00,0x00,0x00};	//开始命令。请求数据
-uint8_t Data[9]= {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}; //数据存储数组
+uint8_t Data[9]= {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}; 	//数据存储数组
 uint8_t key_search[12] = {0x00,0x00,0x00,0x00,
                           0x00,0x00,0x00,0x00,
                           0x00,0x00,0x00,0x00
@@ -41,11 +41,12 @@ void PS2_Init(void)
     PS2_ShortPoll();
     PS2_ShortPoll();
 	PS2_ShortPoll();
-	
+
     PS2_EnterConfing();		//进入配置模式
     PS2_TurnOnAnalogMode();	//“红绿灯”配置模式，并选择是否保存
     PS2_VibrationMode();	//开启震动模式
     PS2_ExitConfing();		//完成并保存配置
+
 }
 
 //读取手柄数据
@@ -57,11 +58,11 @@ void PS2_ReadData(void)
     {
         if(byte < 2)	//0,1字节 即前两个字节
         {
-            Data[byte] = MySPI_SwapByte(Comd[byte]);
+            Data[byte] = MySPI_SwapByte(Comd[byte]);	//①发送0x01，请求接受数据 ②发送0x42，接受ID（PS2表示开始通信）
         }
         else
         {
-            Data[byte] = MySPI_SwapByte(0x00);
+            Data[byte] = MySPI_SwapByte(0x00);	//
         }
     }
     MySPI_Stop();
@@ -173,7 +174,7 @@ void PS2_ExitConfing(void)
 uint8_t ps2_mode_get(void)
 {
     static int getCnt = 0;
-    if( Data[1] == 0X73)
+    if( Data[1] == 0X73)	//第二个接受字节 ID
     {
         ps2_mode = PSB_REDLIGHT_MODE;
     }
