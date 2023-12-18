@@ -26,7 +26,7 @@ int main(void)
     PS2_Init();
     Motor_Init();
     DBG_PRINTF("2222222222222222\r\n");
-	
+
     while (1)
     {
 #ifdef TEST_PS2_HardSPI
@@ -112,42 +112,33 @@ int main(void)
                 }
             }
         }
-		delay_ms(20);
+        delay_ms(20);
 #endif
 #ifdef TEST_SERVO_HardPWM
+        // 获取按下的按键值和模式
         ps2_keynum = ps2_key_serch();
         ps2_mode = ps2_mode_get();
 
+        // 检查模式是否发生变化
         if (ps2_mode != last_ps2_mode) {
-            DBG_PRINTF("PS2模式有变，停车！\r\n");
             Car_Forward(0);
         }
 
+        // 检查是否为红灯模式
         if (ps2_mode == PSB_REDLIGHT_MODE) {
-            DBG_PRINTF("红灯模式（模拟输出）\r\n");
-            unsigned char ps2_lx, ps2_ly, ps2_rx, ps2_ry;
-
+            // 获取PS2控制器的模拟数据
             ps2_lx = ps2_get_anolog_data(PSS_LX);
             ps2_ly = ps2_get_anolog_data(PSS_LY);
-            if (ps2_lx <= 0xFF) {
-                DBG_PRINTF("ps2_lx:%d\r\n", ps2_lx);
-            } else {
-                DBG_PRINTF("ps2_lx值异常");
-            }
-            if (ps2_ly <= 0xFF) {
-                DBG_PRINTF("ps2_ly:%d\r\n", ps2_lx);
-            } else {
-                DBG_PRINTF("ps2_ly值异常");
-            }
 
+            // 根据模拟数据控制小车
             if (ps2_ly == 0x00) {
                 Car_Forward(1000);
             } else if (ps2_ly == 0xff) {
                 Car_Backward(1000);
             } else if (ps2_lx == 0x00) {
-                Car_TurnLeft(1000);
+                Car_TransLeft(1000);
             } else if (ps2_lx == 0xff) {
-                Car_TurnRight(1000);
+                Car_TransRight(1000);
             } else {
                 if (ps2_get_key_state(PSB_L1)) {
                     Car_TurnLeft(1000);
@@ -158,7 +149,7 @@ int main(void)
                 }
             }
 
-            //机械臂控制
+            // 根据模拟数据控制机械臂
             ps2_rx = ps2_get_anolog_data(PSS_RX);
             if (ps2_rx == 0xFF) {
                 RobotArm_RaiseHand(UNIT_PWM);
@@ -173,62 +164,23 @@ int main(void)
                 RobotArm_ShinkHand(UNIT_PWM);
             }
 
+            // 根据按键状态控制机械臂
             if (ps2_get_key_state(PSB_R1)) {
                 RobotArm_ShakeHand(UNIT_PWM);
             } else if (ps2_get_key_state(PSB_R2)) {
                 RobotArm_LetHand(UNIT_PWM);
             }
-        } else if (ps2_mode == PSB_GREENLIGHT_MODE) {
-            DBG_PRINTF("绿灯模式\r\n");
-            if (ps2_keynum) {
-                if (ps2_get_key_state(PSB_PAD_UP)) {
-                    DBG_PRINTF("PSB_PAD_UP Pressed!\r\n");
-                    Car_Forward(1000);
-                } else if (ps2_get_key_state(PSB_PAD_DOWN)) {
-                    DBG_PRINTF("PSB_PAD_DOWN Pressed!\r\n");
-                    Car_Backward(1000);
-                } else if (ps2_get_key_state(PSB_PAD_LEFT)) {
-                    DBG_PRINTF("PSB_PAD_LEFT Pressed!\r\n");
-                    Car_TurnLeft(1000);
-                } else if (ps2_get_key_state(PSB_PAD_RIGHT)) {
-                    DBG_PRINTF("PSB_PAD_RIGHT Pressed!\r\n");
-                    Car_TurnRight(1000);
-                } else if (ps2_get_key_state(PSB_L1)) {
-                    DBG_PRINTF("PSB_L1 Pressed!\r\n");
-                    Car_TurnLeft(1000);
-                } else if (ps2_get_key_state(PSB_L2)) {
-                    DBG_PRINTF("PSB_L2 Pressed!\r\n");
-                    Car_TurnRight(1000);
-                } else {
-                    DBG_PRINTF("Car_Forward(0)\r\n");
-                    Car_Forward(0);
-                }
-
-                //机械臂控制
-                if (ps2_get_key_state(PSB_RED)) {
-                    DBG_PRINTF("机械臂控制--PSB_RED\r\n");
-                    RobotArm_RaiseHand(UNIT_PWM);
-                } else if (ps2_get_key_state(PSB_PINK)) {
-                    RobotArm_DropHand(UNIT_PWM);
-                } else if (ps2_get_key_state(PSB_GREEN)) {
-                    RobotArm_StrechHand(UNIT_PWM);
-                } else if (ps2_get_key_state(PSB_BLUE)) {
-                    RobotArm_ShinkHand(UNIT_PWM);
-                } else if (ps2_get_key_state(PSB_R1)) {
-                    RobotArm_ShakeHand(UNIT_PWM);
-                } else if (ps2_get_key_state(PSB_R2)) {
-                    RobotArm_LetHand(UNIT_PWM);
-                } else {
-                }
-            } else {
-                Car_Forward(0);
-            }
-        } else {
+        } 
+        else {
+            // 如果不是红灯模式，停止小车
             Car_Forward(0);
         }
+
+        // 更新上一次的PS2模式
         last_ps2_mode = ps2_mode;
-        delay_ms(20);		
+        // 延迟一段时间，以便PS2控制器响应
+        delay_ms(20);
 #endif
-	}
+    }
 
 }
