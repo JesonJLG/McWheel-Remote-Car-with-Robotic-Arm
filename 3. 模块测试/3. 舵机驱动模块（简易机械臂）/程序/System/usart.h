@@ -28,6 +28,7 @@
 		{\
 			printf("<<File:%s  Line:%d  Function:%s>> ", __FILE__, __LINE__, __FUNCTION__);\
 			printf(fmt, ##args);\
+			printf("\r\n");\
 		}
 #else
 

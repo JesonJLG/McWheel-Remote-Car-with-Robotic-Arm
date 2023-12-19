@@ -40,7 +40,7 @@ void Motor_Init()
     TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
     TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
     TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
-    TIM_OCInitStructure.TIM_Pulse =0;    //CCR
+    TIM_OCInitStructure.TIM_Pulse = 1000;    //CCR
 	
 	TIM_OC1Init(MOTOR_TIM_AB,&TIM_OCInitStructure);
     TIM_OC2Init(MOTOR_TIM_AB,&TIM_OCInitStructure);

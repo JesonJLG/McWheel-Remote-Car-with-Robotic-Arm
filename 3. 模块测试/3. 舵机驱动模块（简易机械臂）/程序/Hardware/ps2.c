@@ -195,8 +195,8 @@ uint8_t ps2_mode_get(void)
     return ps2_mode;
 }
 
-//对读出来的PS2的数据进行处理,只处理按键部分
-//只有一个按键按下时按下为0， 未按下为1
+
+//根据获取的按键值为按键值对应的状态赋值
 uint8_t ps2_key_serch()
 {
     uint8_t index;
@@ -210,7 +210,7 @@ uint8_t ps2_key_serch()
         if((Handkey&(1<<(MASK[index][0]-1)))==0)
         {
             MASK[index][1] = 1;
-            key_num++;
+            key_num = index+1;	//保存按键值，用于返回（个人修改）
         }
         else
         {
@@ -220,7 +220,7 @@ uint8_t ps2_key_serch()
     return key_num;
 }
 
-uint8_t ps2_get_key_state(uint8_t key_id)
+uint8_t ps2_get_key_state(uint8_t key_id)	//返回key_id对应的状态（按下1/未按下0）
 {
     if (key_id < PSB_SELECT)
         return 0;

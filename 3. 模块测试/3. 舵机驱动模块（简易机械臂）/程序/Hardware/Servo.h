@@ -20,19 +20,19 @@
 
 
 
-typedef enum
-{
-    SERVO_MIDDLE = 0,
-    SERVO_LEFT_LIMIT,
-    SERVO_RIGHT_LIMIT,
-} servo_limit;
+//typedef enum
+//{
+//    SERVO_MIDDLE = 0,
+//    SERVO_LEFT_LIMIT,
+//    SERVO_RIGHT_LIMIT,
+//} servo_limit;
 
 struct SERVO_PARAM
 {
-    uint8_t pwm;
-    uint8_t left_limit;
-    uint8_t middle;
-    uint8_t right_limit;
+    uint16_t pwm;
+    uint16_t left_limit;
+    uint16_t middle;
+    uint16_t right_limit;
 };
 
 void Servo_Init(void);
